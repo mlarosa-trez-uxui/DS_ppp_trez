@@ -1,0 +1,1418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checkbox Button — Component Docs</title>
+<link href="https://fonts.googleapis.com/css2?family=Sofia+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:        #020F0E;
+    --white:     #0A1A18;
+    --border:    #1E3A38;
+    --border-2:  #2A4A48;
+    --text-1:    #E8F5F4;
+    --text-2:    #7AAAA6;
+    --text-3:    #5A8A86;
+    --teal:      #00C8C8;
+    --teal-dark: #4DDADA;
+    --teal-light:#001F1F;
+    --red:       #EF4444;
+    --mono: 'DM Mono', monospace;
+    --sans: 'Sofia Sans', sans-serif;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--teal);
+    font-family: var(--sans);
+    padding: 48px 56px;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  /* ── TOP LABEL ── */
+  .top-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #7AAAA6;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 32px;
+  }
+
+  /* ── HEADER ── */
+  .comp-header { margin-bottom: 48px; }
+
+  .comp-star {
+    font-size: 28px;
+    line-height: 1;
+    margin-bottom: 8px;
+    color: var(--teal);
+  }
+
+  .comp-title {
+    font-size: 48px;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    margin-bottom: 12px;
+  }
+
+  .comp-desc {
+    font-size: 13px;
+    color: #B0CECA;
+    line-height: 1.6;
+    max-width: 420px;
+  }
+
+  /* ── SECTION ── */
+  .section { margin-bottom: 48px; }
+
+  .section-title {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .section-title::after {
+    content: '';
+    flex: 0 0 40px;
+    height: 2px;
+    background: var(--teal);
+    border-radius: 2px;
+  }
+
+  /* ── SCALE SECTION ── */
+  .scale-row {
+    display: flex;
+    align-items: flex-end;
+    gap: 48px;
+    padding: 32px 0 16px;
+  }
+
+  .scale-item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .scale-measure {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text-3);
+    display: flex;
+    align-items: center;
+    gap: 0;
+    margin-bottom: 4px;
+  }
+
+  .scale-measure-line {
+    flex: 1;
+    height: 1px;
+    background: var(--text-3);
+    position: relative;
+  }
+
+  .scale-measure-line::before,
+  .scale-measure-line::after {
+    content: '';
+    position: absolute;
+    top: -3px;
+    width: 1px;
+    height: 7px;
+    background: var(--text-3);
+  }
+
+  .scale-measure-line::before { left: 0; }
+  .scale-measure-line::after  { right: 0; }
+
+  .scale-name {
+    font-size: 11px;
+    color: var(--text-2);
+    margin-top: 6px;
+    font-family: var(--mono);
+  }
+
+  /* ── CHECKBOX VARIANTS ── */
+
+  /* Base checkbox */
+  .cb {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+  }
+
+  .cb.trailing { flex-direction: row-reverse; }
+
+  .cb-icon {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 2px solid var(--teal);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    transition: all 0.15s;
+  }
+
+  .cb-icon.sm { width: 18px; height: 18px; }
+  .cb-icon.md { width: 22px; height: 22px; }
+  .cb-icon.lg { width: 28px; height: 28px; }
+
+  .cb-icon.checked {
+    background: var(--teal);
+    border-color: var(--teal);
+  }
+
+  .cb-icon.checked::after {
+    content: '';
+    width: 9px;
+    height: 5px;
+    border-left: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+    transform: rotate(-45deg) translateY(-1px);
+  }
+
+  .cb-icon.disabled {
+    border-color: #3A6460;
+    opacity: 0.5;
+  }
+
+  .cb-text { display: flex; flex-direction: column; gap: 2px; }
+
+  .cb-label {
+    font-family: var(--sans);
+    font-weight: 600;
+    color: var(--teal);
+    line-height: 1;
+  }
+
+  .cb-label.sm { font-size: 14px; }
+  .cb-label.md { font-size: 16px; }
+  .cb-label.lg { font-size: 18px; }
+  .cb-label.disabled { color: #7AAAA6; }
+
+  .cb-helper {
+    font-family: var(--sans);
+    font-size: 12px;
+    font-weight: 400;
+    color: #7AAAA6;
+    line-height: 1;
+  }
+
+  .cb-helper.disabled { color: #5A8A86; }
+
+  /* ── STATES GRID ── */
+  .states-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .states-grid {
+    display: grid;
+    grid-template-columns: 80px repeat(4, 1fr);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .states-grid:last-child { border-bottom: none; }
+
+  .grid-header {
+    padding: 14px 20px;
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+    color: #7AAAA6;
+    text-align: center;
+    border-right: 1px solid var(--border);
+    background: #0F2220;
+  }
+
+  .grid-header:last-child { border-right: none; }
+
+  .grid-header.row-label {
+    text-align: left;
+    background: #0F2220;
+  }
+
+  .grid-cell {
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-right: 1px solid var(--border);
+  }
+
+  .grid-cell:last-child { border-right: none; }
+
+  .grid-row-label {
+    padding: 20px 16px;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: #7AAAA6;
+    display: flex;
+    align-items: center;
+    border-right: 1px solid var(--border);
+    background: #0F2220;
+  }
+
+  /* ── SCALE CARDS ── */
+  .scale-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px 24px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+    position: relative;
+  }
+
+  /* width measurement */
+  .width-ruler {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 12px;
+  }
+
+  .ruler-num {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: var(--text-3);
+    flex-shrink: 0;
+  }
+
+  .ruler-line {
+    flex: 1;
+    height: 1px;
+    background: #2A4A48;
+    position: relative;
+    margin: 0 4px;
+  }
+
+  .ruler-line::before, .ruler-line::after {
+    content: '';
+    position: absolute;
+    top: -3px;
+    width: 1px;
+    height: 7px;
+    background: #2A4A48;
+  }
+
+  .ruler-line::before { left: 0; }
+  .ruler-line::after  { right: 0; }
+
+  /* height measurement */
+  .height-ruler {
+    position: absolute;
+    left: -28px;
+    top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: calc(100% - 48px);
+  }
+
+  .height-ruler-line {
+    width: 1px;
+    flex: 1;
+    background: #2A4A48;
+    position: relative;
+  }
+
+  .height-ruler-line::before, .height-ruler-line::after {
+    content: '';
+    position: absolute;
+    left: -3px;
+    width: 7px;
+    height: 1px;
+    background: #2A4A48;
+  }
+
+  .height-ruler-line::before { top: 0; }
+  .height-ruler-line::after  { bottom: 0; }
+
+  .height-num {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: #7AAAA6;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    margin: 4px 0;
+  }
+
+  .scale-item-name {
+    font-size: 12px;
+    color: #E8F5F4;
+    margin-top: 12px;
+    font-family: var(--mono);
+  }
+
+  /* ── EXAMPLES CARD ── */
+  .examples-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .example-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+  }
+
+  .example-title {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+    color: #7AAAA6;
+    margin-bottom: 16px;
+  }
+
+  .example-group {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  /* ── SPECS ── */
+  .specs-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .spec-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .spec-card-header {
+    padding: 10px 16px;
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+    color: #7AAAA6;
+    border-bottom: 1px solid var(--border);
+    background: #0F2220;
+  }
+
+  .spec-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 16px;
+    border-bottom: 1px solid var(--border);
+    font-size: 11px;
+  }
+
+  .spec-row:last-child { border-bottom: none; }
+  .spec-key { color: #B0CECA; font-family: var(--mono); font-size: 10px; }
+  .spec-val { color: var(--text-1); font-family: var(--mono); font-size: 10px; font-weight: 500; }
+  .spec-token {
+    font-family: var(--mono);
+    font-size: 9px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: var(--teal-light);
+    color: var(--teal-dark);
+    border: 1px solid #00C8C820;
+  }
+
+  /* ── DO DON'T ── */
+  .dodont-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .do-card, .dont-card {
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+
+  .do-header {
+    padding: 10px 16px;
+    background: #052E16;
+    border-bottom: 1px solid #22C55E30;
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 500;
+    color: #4ADE80;
+    letter-spacing: 0.06em;
+  }
+
+  .dont-header {
+    padding: 10px 16px;
+    background: #450A0A;
+    border-bottom: 1px solid #EF444430;
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 500;
+    color: #FCA5A5;
+    letter-spacing: 0.06em;
+  }
+
+  .do-body, .dont-body {
+    padding: 16px;
+    background: var(--surface);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .do-item, .dont-item {
+    font-size: 12px;
+    color: var(--text-2);
+    line-height: 1.5;
+    display: flex;
+    gap: 8px;
+  }
+
+  .do-item::before   { content: '—'; color: #4ADE80; flex-shrink: 0; }
+  .dont-item::before { content: '—'; color: #FCA5A5; flex-shrink: 0; }
+
+  footer {
+    margin-top: 56px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+    font-family: var(--mono);
+    font-size: 10px;
+    color: #7AAAA6;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  /* ── CODE COPY BUTTONS ── */
+  .code-block {
+    position: relative;
+    margin-top: 8px;
+  }
+
+  .copy-btn {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    background: #1E3A38;
+    border: 1px solid #2A4A48;
+    border-radius: 5px;
+    padding: 3px 8px;
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    color: #7AAAA6;
+    cursor: pointer;
+    transition: all 0.15s;
+    z-index: 10;
+  }
+
+  .copy-btn:hover {
+    background: #00C8C820;
+    border-color: #00C8C8;
+    color: #00C8C8;
+  }
+
+  .copy-btn.copied {
+    background: #052E16;
+    border-color: #22C55E;
+    color: #4ADE80;
+  }
+
+  .code-snippet {
+    background: #040C0B;
+    border: 1px solid #1E3A38;
+    border-radius: 8px;
+    padding: 12px 14px;
+    padding-right: 60px;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: #7AAAA6;
+    line-height: 1.7;
+    white-space: pre;
+    overflow-x: auto;
+    display: block;
+  }
+
+  .code-snippet .kw  { color: #4DDADA; }
+  .code-snippet .str { color: #86EFAC; }
+  .code-snippet .cls { color: #FCD34D; }
+  .code-snippet .com { color: #3A6460; }
+
+  /* CODE SECTION row */
+  .code-section {
+    border-top: 1px solid #1E3A38;
+    padding: 20px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .code-section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #3A6460;
+    margin-bottom: 4px;
+  }
+
+  .code-tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 8px;
+  }
+
+  .code-tab {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    padding: 3px 10px;
+    border-radius: 4px;
+    border: 1px solid #1E3A38;
+    color: #3A6460;
+    cursor: pointer;
+    background: transparent;
+    transition: all 0.12s;
+  }
+
+  .code-tab.active {
+    background: #001F1F;
+    border-color: #00C8C8;
+    color: #00C8C8;
+  }
+
+</style>
+</head>
+<body>
+
+<!-- TOP LABEL -->
+<div style="display:flex;justify-content:space-between;align-items:center;padding-bottom:12px;border-bottom:1px solid var(--border);margin-bottom:32px;">
+  <div class="top-label" style="border:none;padding:0;margin:0;">Components</div>
+  <img src="data:image/png;base64,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" style="width:80px;height:80px;object-fit:contain;" alt="PPP Logo">
+</div>
+
+<!-- HEADER -->
+<div class="comp-header">
+  <div class="comp-star">✦</div>
+  <div class="comp-title">Checkbox Button</div>
+  <p class="comp-desc">A selection component that combines a circular icon with a text label. Allows the user to enable or disable an option within a form or list. Available in two icon positions, with or without helper text.</p>
+</div>
+
+
+<!-- ══════════════════════
+     MEASUREMENTS
+══════════════════════ -->
+<div class="section">
+  <div class="section-title">Measurements</div>
+
+  <div class="states-card" style="padding: 80px 100px 80px 100px; position:relative; min-height:300px; display:flex; align-items:center; justify-content:center;">
+
+    <style>
+      /* ── MEASUREMENT TOOLTIP SYSTEM ── */
+      .m-wrap { position: relative; display: inline-block; }
+
+      .m-indicator {
+        position: absolute;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: default;
+        z-index: 20;
+        transition: opacity 0.15s;
+      }
+
+      .m-icon {
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 8px;
+        font-weight: 700;
+        font-family: 'DM Mono', monospace;
+        border: 1px solid;
+        transition: all 0.15s;
+        cursor: default;
+        flex-shrink: 0;
+      }
+
+      .m-tooltip {
+        position: absolute;
+        background: #040C0B;
+        border-radius: 6px;
+        padding: 8px 10px;
+        font-family: 'DM Mono', monospace;
+        font-size: 10px;
+        line-height: 1.6;
+        white-space: nowrap;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.15s, transform 0.15s;
+        z-index: 100;
+        transform: translateY(4px);
+      }
+
+      .m-indicator:hover .m-tooltip {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .m-indicator:hover .m-icon {
+        transform: scale(1.2);
+      }
+
+      /* TEAL — icon */
+      .m-teal .m-icon { background: #001F1F; border-color: #00C8C8; color: #00C8C8; }
+      .m-teal .m-tooltip { border: 1px solid #00C8C830; }
+      .m-teal .m-tooltip span { color: #00C8C8; }
+      .m-teal .m-tooltip em { color: #4DDADA; font-style: normal; }
+
+      /* BLUE — label */
+      .m-blue .m-icon { background: #0C1A38; border-color: #3B82F6; color: #60A5FA; }
+      .m-blue .m-tooltip { border: 1px solid #3B82F630; }
+      .m-blue .m-tooltip span { color: #60A5FA; }
+      .m-blue .m-tooltip em { color: #93C5FD; font-style: normal; }
+
+      /* AMBER — helper */
+      .m-amber .m-icon { background: #1C1000; border-color: #F59E0B; color: #FCD34D; }
+      .m-amber .m-tooltip { border: 1px solid #F59E0B30; }
+      .m-amber .m-tooltip span { color: #FCD34D; }
+      .m-amber .m-tooltip em { color: #FDE68A; font-style: normal; }
+
+      /* GRAY — component */
+      .m-gray .m-icon { background: #0F2220; border-color: #3A6460; color: #7AAAA6; }
+      .m-gray .m-tooltip { border: 1px solid #3A646030; }
+      .m-gray .m-tooltip span { color: #7AAAA6; }
+      .m-gray .m-tooltip em { color: #B0CECA; font-style: normal; }
+
+      /* tooltip positions */
+      .tip-top    { bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%) translateY(4px); }
+      .tip-bottom { top: calc(100% + 8px); left: 50%; transform: translateX(-50%) translateY(-4px); }
+      .tip-right  { left: calc(100% + 8px); top: 50%; transform: translateY(-50%) translateY(4px); }
+      .tip-left   { right: calc(100% + 8px); top: 50%; transform: translateY(-50%) translateY(4px); }
+
+      .m-indicator:hover .tip-top    { transform: translateX(-50%) translateY(0); }
+      .m-indicator:hover .tip-bottom { transform: translateX(-50%) translateY(0); }
+      .m-indicator:hover .tip-right  { transform: translateY(-50%) translateY(0); }
+      .m-indicator:hover .tip-left   { transform: translateY(-50%) translateY(0); }
+
+      /* dashed outline on hover of parent */
+      .m-wrap:hover .m-outline { opacity: 1; }
+      .m-outline {
+        position: absolute;
+        inset: -4px;
+        border: 1px dashed;
+        border-radius: 4px;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.15s;
+      }
+    </style>
+
+    <!-- ── COMPONENT ── -->
+    <div style="position:relative; display:inline-flex; flex-direction:column; gap:8px;">
+
+      <!-- ROW: icon + label -->
+      <div style="display:flex; align-items:center; gap:12px; position:relative;">
+
+        <!-- ── ICON ── -->
+        <div class="m-wrap" style="width:40px;height:40px;display:flex;align-items:center;justify-content:center;position:relative;">
+          <div class="m-outline" style="border-color:#00C8C8;border-radius:50%;"></div>
+          <div style="width:24px;height:24px;border-radius:50%;border:3px solid #00C8C8;"></div>
+
+          <!-- indicator: top-left, icon size -->
+          <div class="m-indicator m-teal" style="top:-10px;left:-10px;">
+            <div class="m-icon">⬚</div>
+            <div class="m-tooltip tip-top" style="left:0;transform:none;">
+              <span>Icon container</span><br>
+              <em>20 × 20 adaptar</em><br>
+              <span>Circle stroke</span> <em>12 × 12</em><br>
+              <span>Border</span> <em>2px · Primary/500 #00C8C8</em><br>
+              <span>Radius</span> <em>Radius/Full · 999px</em>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── LABEL ── -->
+        <div class="m-wrap" style="position:relative;">
+          <div class="m-outline" style="border-color:#3B82F6;"></div>
+          <div style="font-family:'Sofia Sans',sans-serif;font-size:32px;font-weight:700;color:#E8F5F4;line-height:1;white-space:nowrap;">
+            Label text
+          </div>
+
+          <!-- indicator: top-right -->
+          <div class="m-indicator m-blue" style="top:-10px;right:-10px;">
+            <div class="m-icon">T</div>
+            <div class="m-tooltip tip-top" style="right:0;left:auto;transform:none;">
+              <span>Label text</span><br>
+              <em>70 × 20 adaptar</em><br>
+              <span>Font</span> <em>Body/Normal/Bold</em><br>
+              <span>Size</span> <em>16px</em><br>
+              <span>Line height</span> <em>125%</em><br>
+              <span>Color</span> <em>color/neutral/50 · #E8F5F4</em>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ── HELPER TEXT ── -->
+      <div class="m-wrap" style="padding-left:52px;position:relative;">
+        <div class="m-outline" style="border-color:#F59E0B;left:48px;"></div>
+        <div style="font-family:'Sofia Sans',sans-serif;font-size:24px;font-weight:400;color:#7AAAA6;line-height:1;white-space:nowrap;">
+          Helper text
+        </div>
+
+        <!-- indicator: bottom-right -->
+        <div class="m-indicator m-amber" style="bottom:-10px;right:-10px;">
+          <div class="m-icon">T</div>
+          <div class="m-tooltip tip-bottom" style="right:0;left:auto;transform:none;">
+            <span>Helper text</span><br>
+            <em>58 × 8 adaptar</em><br>
+            <span>Font</span> <em>Body/Extra Small/Regular</em><br>
+            <span>Size</span> <em>12px</em><br>
+            <span>Line height</span> <em>70%</em><br>
+            <span>Color</span> <em>color/neutral/50 · #7AAAA6</em><br>
+            <span>Indent</span> <em>20px (icon width)</em>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── COMPONENT TOTAL ── -->
+      <div class="m-indicator m-gray" style="position:absolute;top:-20px;right:-20px;">
+        <div class="m-icon">⊞</div>
+        <div class="m-tooltip tip-right">
+          <span>Component total</span><br>
+          <em>90 × 32 adaptar</em><br>
+          <span>Layout</span> <em>Auto Layout · Vertical</em><br>
+          <span>Gap label → helper</span> <em>4px</em><br>
+          <span>Gap icon → label</span> <em>8px · Spacing/Component/SM</em>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ── LEGEND ── -->
+    <div style="position:absolute;bottom:16px;right:20px;display:flex;gap:14px;align-items:center;">
+      <span style="font-family:'DM Mono',monospace;font-size:9px;color:#3A6460;">Hover icons to inspect</span>
+      <div style="display:flex;align-items:center;gap:5px;">
+        <div style="width:10px;height:10px;border-radius:50%;background:#001F1F;border:1px solid #00C8C8;"></div>
+        <span style="font-family:'DM Mono',monospace;font-size:9px;color:#3A6460;">Icon</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:5px;">
+        <div style="width:10px;height:10px;border-radius:50%;background:#0C1A38;border:1px solid #3B82F6;"></div>
+        <span style="font-family:'DM Mono',monospace;font-size:9px;color:#3A6460;">Label</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:5px;">
+        <div style="width:10px;height:10px;border-radius:50%;background:#1C1000;border:1px solid #F59E0B;"></div>
+        <span style="font-family:'DM Mono',monospace;font-size:9px;color:#3A6460;">Helper</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:5px;">
+        <div style="width:10px;height:10px;border-radius:50%;background:#0F2220;border:1px solid #3A6460;"></div>
+        <span style="font-family:'DM Mono',monospace;font-size:9px;color:#3A6460;">Component</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══════════════════════
+     BASIC STATES
+══════════════════════ -->
+<div class="section">
+  <div class="section-title">Basic States</div>
+
+  <div class="states-card">
+
+    <!-- HEADERS -->
+    <div class="states-grid" style="background:#0F2220;">
+      <div class="grid-header row-label"></div>
+      <div class="grid-header">Leading</div>
+      <div class="grid-header">Leading + Helper</div>
+      <div class="grid-header">Trailing</div>
+      <div class="grid-header">Trailing + Helper</div>
+    </div>
+
+    <!-- DEFAULT -->
+    <div class="states-grid">
+      <div class="grid-row-label">Default</div>
+      <div class="grid-cell">
+        <div class="cb">
+          <div class="cb-icon md"></div>
+          <span class="cb-label md">Label text</span>
+        </div>
+      </div>
+      <div class="grid-cell">
+        <div class="cb">
+          <div class="cb-icon md"></div>
+          <div class="cb-text">
+            <span class="cb-label md">Label text</span>
+            <span class="cb-helper">Helper text</span>
+          </div>
+        </div>
+      </div>
+      <div class="grid-cell">
+        <div class="cb trailing">
+          <div class="cb-icon md"></div>
+          <span class="cb-label md">Label text</span>
+        </div>
+      </div>
+      <div class="grid-cell">
+        <div class="cb trailing">
+          <div class="cb-icon md"></div>
+          <div class="cb-text">
+            <span class="cb-label md">Label text</span>
+            <span class="cb-helper">Helper text</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHECKED -->
+    <div class="states-grid" style="background:#001F1F;">
+      <div class="grid-row-label">Checked</div>
+      <div class="grid-cell" style="background:#001F1F;">
+        <div class="cb">
+          <div class="cb-icon md checked"></div>
+          <span class="cb-label md">Label text</span>
+        </div>
+      </div>
+      <div class="grid-cell" style="background:#001F1F;">
+        <div class="cb">
+          <div class="cb-icon md checked"></div>
+          <div class="cb-text">
+            <span class="cb-label md">Label text</span>
+            <span class="cb-helper">Helper text</span>
+          </div>
+        </div>
+      </div>
+      <div class="grid-cell" style="background:#001F1F;">
+        <div class="cb trailing">
+          <div class="cb-icon md checked"></div>
+          <span class="cb-label md">Label text</span>
+        </div>
+      </div>
+      <div class="grid-cell" style="background:#001F1F;">
+        <div class="cb trailing">
+          <div class="cb-icon md checked"></div>
+          <div class="cb-text">
+            <span class="cb-label md">Label text</span>
+            <span class="cb-helper">Helper text</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DISABLED -->
+    <div class="states-grid">
+      <div class="grid-row-label">Disabled</div>
+      <div class="grid-cell" style="opacity:0.4;">
+        <div class="cb">
+          <div class="cb-icon md disabled"></div>
+          <span class="cb-label md disabled">Label text</span>
+        </div>
+      </div>
+      <div class="grid-cell" style="opacity:0.4;">
+        <div class="cb">
+          <div class="cb-icon md disabled"></div>
+          <div class="cb-text">
+            <span class="cb-label md disabled">Label text</span>
+            <span class="cb-helper disabled">Helper text</span>
+          </div>
+        </div>
+      </div>
+      <div class="grid-cell" style="opacity:0.4;">
+        <div class="cb trailing">
+          <div class="cb-icon md disabled"></div>
+          <span class="cb-label md disabled">Label text</span>
+        </div>
+      </div>
+      <div class="grid-cell" style="opacity:0.4;">
+        <div class="cb trailing">
+          <div class="cb-icon md disabled"></div>
+          <div class="cb-text">
+            <span class="cb-label md disabled">Label text</span>
+            <span class="cb-helper disabled">Helper text</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+
+<!-- ══════════════════════
+     CODE SNIPPETS
+══════════════════════ -->
+<div class="section">
+  <div class="section-title">Code Snippets</div>
+
+  <div class="states-card">
+
+    <!-- DEFAULT LEADING -->
+    <div class="code-section">
+      <div class="code-section-label">Default · Leading · No Helper</div>
+      <div class="code-block">
+        <button class="copy-btn" data-code="&lt;div class=&quot;cb&quot;&gt;
+  &lt;div class=&quot;cb-icon&quot;&gt;&lt;/div&gt;
+  &lt;span class=&quot;cb-label&quot;&gt;Label text&lt;/span&gt;
+&lt;/div&gt;" onclick="copyCode(this)">Copy</button>
+        <code class="code-snippet"><div class="cb">
+  <div class="cb-icon"></div>
+  <span class="cb-label">Label text</span>
+</div></code>
+      </div>
+    </div>
+
+    <!-- DEFAULT LEADING + HELPER -->
+    <div class="code-section">
+      <div class="code-section-label">Default · Leading · With Helper</div>
+      <div class="code-block">
+        <button class="copy-btn" data-code="&lt;div class=&quot;cb&quot;&gt;
+  &lt;div class=&quot;cb-icon&quot;&gt;&lt;/div&gt;
+  &lt;div class=&quot;cb-text&quot;&gt;
+    &lt;span class=&quot;cb-label&quot;&gt;Label text&lt;/span&gt;
+    &lt;span class=&quot;cb-helper&quot;&gt;Helper text&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;" onclick="copyCode(this)">Copy</button>
+        <code class="code-snippet"><div class="cb">
+  <div class="cb-icon"></div>
+  <div class="cb-text">
+    <span class="cb-label">Label text</span>
+    <span class="cb-helper">Helper text</span>
+  </div>
+</div></code>
+      </div>
+    </div>
+
+    <!-- CHECKED LEADING -->
+    <div class="code-section">
+      <div class="code-section-label">Checked · Leading · No Helper</div>
+      <div class="code-block">
+        <button class="copy-btn" data-code="&lt;div class=&quot;cb&quot;&gt;
+  &lt;div class=&quot;cb-icon checked&quot;&gt;&lt;/div&gt;
+  &lt;span class=&quot;cb-label&quot;&gt;Label text&lt;/span&gt;
+&lt;/div&gt;" onclick="copyCode(this)">Copy</button>
+        <code class="code-snippet"><div class="cb">
+  <div class="cb-icon checked"></div>
+  <span class="cb-label">Label text</span>
+</div></code>
+      </div>
+    </div>
+
+    <!-- CHECKED LEADING + HELPER -->
+    <div class="code-section">
+      <div class="code-section-label">Checked · Leading · With Helper</div>
+      <div class="code-block">
+        <button class="copy-btn" data-code="&lt;div class=&quot;cb&quot;&gt;
+  &lt;div class=&quot;cb-icon checked&quot;&gt;&lt;/div&gt;
+  &lt;div class=&quot;cb-text&quot;&gt;
+    &lt;span class=&quot;cb-label&quot;&gt;Label text&lt;/span&gt;
+    &lt;span class=&quot;cb-helper&quot;&gt;Helper text&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;" onclick="copyCode(this)">Copy</button>
+        <code class="code-snippet"><div class="cb">
+  <div class="cb-icon checked"></div>
+  <div class="cb-text">
+    <span class="cb-label">Label text</span>
+    <span class="cb-helper">Helper text</span>
+  </div>
+</div></code>
+      </div>
+    </div>
+
+    <!-- TRAILING -->
+    <div class="code-section">
+      <div class="code-section-label">Default · Trailing · No Helper</div>
+      <div class="code-block">
+        <button class="copy-btn" data-code="&lt;div class=&quot;cb trailing&quot;&gt;
+  &lt;div class=&quot;cb-icon&quot;&gt;&lt;/div&gt;
+  &lt;span class=&quot;cb-label&quot;&gt;Label text&lt;/span&gt;
+&lt;/div&gt;" onclick="copyCode(this)">Copy</button>
+        <code class="code-snippet"><div class="cb trailing">
+  <div class="cb-icon"></div>
+  <span class="cb-label">Label text</span>
+</div></code>
+      </div>
+    </div>
+
+    <!-- DISABLED -->
+    <div class="code-section">
+      <div class="code-section-label">Disabled · Leading · No Helper</div>
+      <div class="code-block">
+        <button class="copy-btn" data-code="&lt;div class=&quot;cb&quot; style=&quot;opacity:0.4&quot;&gt;
+  &lt;div class=&quot;cb-icon disabled&quot;&gt;&lt;/div&gt;
+  &lt;span class=&quot;cb-label disabled&quot;&gt;Label text&lt;/span&gt;
+&lt;/div&gt;" onclick="copyCode(this)">Copy</button>
+        <code class="code-snippet"><div class="cb" style="opacity:0.4">
+  <div class="cb-icon disabled"></div>
+  <span class="cb-label disabled">Label text</span>
+</div></code>
+      </div>
+    </div>
+
+    <!-- CSS TOKENS -->
+    <div class="code-section">
+      <div class="code-section-label">CSS — Tokens used</div>
+      <div class="code-block">
+        <button class="copy-btn" data-code="/* Icon — Default */
+.cb-icon {
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;  /* Radius/Full */
+  border: 2px solid #00C8C8; /* Primary/500 */
+  background: transparent;
+}
+
+/* Icon — Checked */
+.cb-icon.checked {
+  background: #00C8C8;
+  border-color: #00C8C8;
+}
+
+/* Label */
+.cb-label {
+  font-family: &#x27;Sofia Sans&#x27;, sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: #E8F5F4; /* Neutral/50 */
+}
+
+/* Helper */
+.cb-helper {
+  font-size: 12px;
+  font-weight: 400;
+  color: #7AAAA6; /* Neutral/300 */
+}
+
+/* Layout */
+.cb {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Spacing/Component/SM */
+}
+
+.cb.trailing { flex-direction: row-reverse; }
+
+/* Disabled */
+.cb-icon.disabled { border-color: #3A6460; }
+.cb.disabled { opacity: 0.4; }" onclick="copyCode(this)">Copy</button>
+        <code class="code-snippet">/* Icon — Default */
+.cb-icon {
+  width: 22px;           /* --size-md */
+  height: 22px;
+  border-radius: 999px;  /* Radius/Full */
+  border: 2px solid #00C8C8; /* Primary/500 */
+  background: transparent;
+}
+
+/* Icon — Checked */
+.cb-icon.checked {
+  background: #00C8C8;   /* Primary/500 */
+  border-color: #00C8C8;
+}
+
+/* Label */
+.cb-label {
+  font-family: 'Sofia Sans', sans-serif;
+  font-size: 16px;       /* Font/Size/16 */
+  font-weight: 600;      /* SemiBold */
+  color: #E8F5F4;        /* Neutral/50 */
+}
+
+/* Helper */
+.cb-helper {
+  font-size: 12px;       /* Font/Size/12 */
+  font-weight: 400;
+  color: #7AAAA6;        /* Neutral/300 */
+}
+
+/* Gap icon → label */
+.cb {
+  display: flex;
+  align-items: center;
+  gap: 8px;              /* Spacing/Component/SM */
+}
+
+/* Trailing position */
+.cb.trailing { flex-direction: row-reverse; }
+
+/* Disabled */
+.cb-icon.disabled { border-color: #3A6460; } /* Neutral/500 */
+.cb[disabled], .cb.disabled { opacity: 0.4; }</code>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════
+     EXAMPLES
+══════════════════════ -->
+<div class="section">
+  <div class="section-title">Examples</div>
+
+  <div class="examples-grid">
+
+    <!-- EXAMPLE 1: Permissions form -->
+    <div class="example-card">
+      <div class="example-title">Dashboard — Permissions Form</div>
+      <div class="example-group">
+        <div class="cb">
+          <div class="cb-icon md checked"></div>
+          <div class="cb-text">
+            <span class="cb-label md">Add Credits</span>
+            <span class="cb-helper">Allow operator to add credits to players</span>
+          </div>
+        </div>
+        <div class="cb">
+          <div class="cb-icon md checked"></div>
+          <div class="cb-text">
+            <span class="cb-label md">Withdraw Credits</span>
+            <span class="cb-helper">Allow operator to withdraw credits</span>
+          </div>
+        </div>
+        <div class="cb">
+          <div class="cb-icon md"></div>
+          <div class="cb-text">
+            <span class="cb-label md">Reset Password</span>
+            <span class="cb-helper">Allow operator to reset player passwords</span>
+          </div>
+        </div>
+        <div class="cb" style="opacity:0.4;">
+          <div class="cb-icon md disabled"></div>
+          <div class="cb-text">
+            <span class="cb-label md disabled">Delete Account</span>
+            <span class="cb-helper disabled">Restricted — requires supervisor role</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- EXAMPLE 2: Company selector -->
+    <div class="example-card">
+      <div class="example-title">Dashboard — Company Filter</div>
+      <div class="example-group">
+        <div class="cb">
+          <div class="cb-icon md checked"></div>
+          <span class="cb-label md">Weissgam</span>
+        </div>
+        <div class="cb">
+          <div class="cb-icon md checked"></div>
+          <span class="cb-label md">PlayPlayPlay</span>
+        </div>
+        <div class="cb">
+          <div class="cb-icon md"></div>
+          <span class="cb-label md">Eterna</span>
+        </div>
+        <div class="cb">
+          <div class="cb-icon md"></div>
+          <span class="cb-label md">Valorz</span>
+        </div>
+        <div class="cb">
+          <div class="cb-icon md checked"></div>
+          <span class="cb-label md">Wild Down</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- EXAMPLE 3: Trailing -->
+    <div class="example-card">
+      <div class="example-title">Settings — Trailing position</div>
+      <div class="example-group">
+        <div class="cb trailing" style="justify-content:space-between;width:100%;">
+          <div class="cb-text">
+            <span class="cb-label md">Email notifications</span>
+            <span class="cb-helper">Receive alerts via email</span>
+          </div>
+          <div class="cb-icon md checked"></div>
+        </div>
+        <div class="cb trailing" style="justify-content:space-between;width:100%;">
+          <div class="cb-text">
+            <span class="cb-label md">Bot failure alerts</span>
+            <span class="cb-helper">Get notified when a bot fails</span>
+          </div>
+          <div class="cb-icon md checked"></div>
+        </div>
+        <div class="cb trailing" style="justify-content:space-between;width:100%;">
+          <div class="cb-text">
+            <span class="cb-label md">Daily summary</span>
+            <span class="cb-helper">Receive a daily operations report</span>
+          </div>
+          <div class="cb-icon md"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- EXAMPLE 4: Mixed states -->
+    <div class="example-card">
+      <div class="example-title">Casino — Game type filter</div>
+      <div class="example-group">
+        <div class="cb">
+          <div class="cb-icon md checked"></div>
+          <span class="cb-label md">Slots</span>
+        </div>
+        <div class="cb">
+          <div class="cb-icon md checked"></div>
+          <span class="cb-label md">Table Games</span>
+        </div>
+        <div class="cb">
+          <div class="cb-icon md"></div>
+          <span class="cb-label md">Live Casino</span>
+        </div>
+        <div class="cb">
+          <div class="cb-icon md checked"></div>
+          <span class="cb-label md">Jackpot</span>
+        </div>
+        <div class="cb" style="opacity:0.4;">
+          <div class="cb-icon md disabled"></div>
+          <span class="cb-label md disabled">Sports (coming soon)</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══════════════════════
+     SPECS
+══════════════════════ -->
+<div class="section">
+  <div class="section-title">Specifications</div>
+
+  <div class="specs-grid">
+    <div class="spec-card">
+      <div class="spec-card-header">Icon</div>
+      <div class="spec-row"><span class="spec-key">Size SM</span><span class="spec-val">18 × 18px</span></div>
+      <div class="spec-row"><span class="spec-key">Size MD</span><span class="spec-val">22 × 22px</span></div>
+      <div class="spec-row"><span class="spec-key">Size LG</span><span class="spec-val">28 × 28px</span></div>
+      <div class="spec-row"><span class="spec-key">Border</span><span class="spec-val">2px solid</span></div>
+      <div class="spec-row"><span class="spec-key">Border color</span><span class="spec-token">Primary/500</span></div>
+      <div class="spec-row"><span class="spec-key">Fill (checked)</span><span class="spec-token">Primary/500</span></div>
+      <div class="spec-row"><span class="spec-key">Border radius</span><span class="spec-token">Radius/Full</span></div>
+      <div class="spec-row"><span class="spec-key">Disabled opacity</span><span class="spec-val">40%</span></div>
+    </div>
+
+    <div class="spec-card">
+      <div class="spec-card-header">Typography</div>
+      <div class="spec-row"><span class="spec-key">Label SM</span><span class="spec-val">14px · 600</span></div>
+      <div class="spec-row"><span class="spec-key">Label MD</span><span class="spec-val">16px · 600</span></div>
+      <div class="spec-row"><span class="spec-key">Label LG</span><span class="spec-val">18px · 600</span></div>
+      <div class="spec-row"><span class="spec-key">Label color</span><span class="spec-token">Neutral/50</span></div>
+      <div class="spec-row"><span class="spec-key">Helper size</span><span class="spec-val">12px · 400</span></div>
+      <div class="spec-row"><span class="spec-key">Helper color</span><span class="spec-token">Neutral/300</span></div>
+      <div class="spec-row"><span class="spec-key">Font family</span><span class="spec-val">Sofia Sans</span></div>
+    </div>
+
+    <div class="spec-card">
+      <div class="spec-card-header">Spacing</div>
+      <div class="spec-row"><span class="spec-key">Icon → Label gap</span><span class="spec-token">Spacing/Component/SM</span></div>
+      <div class="spec-row"><span class="spec-key">Gap value</span><span class="spec-val">8px</span></div>
+      <div class="spec-row"><span class="spec-key">Label → Helper gap</span><span class="spec-val">4px</span></div>
+      <div class="spec-row"><span class="spec-key">Helper indent</span><span class="spec-val">Icon + gap = 32px</span></div>
+    </div>
+
+    <div class="spec-card">
+      <div class="spec-card-header">Properties</div>
+      <div class="spec-row"><span class="spec-key">State</span><span class="spec-val">Default · Checked · Disabled</span></div>
+      <div class="spec-row"><span class="spec-key">Icon Position</span><span class="spec-val">Leading · Trailing</span></div>
+      <div class="spec-row"><span class="spec-key">Helper Text</span><span class="spec-val">Boolean (True / False)</span></div>
+      <div class="spec-row"><span class="spec-key">Total variants</span><span class="spec-val">12</span></div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════
+     DO / DON'T
+══════════════════════ -->
+<div class="section">
+  <div class="section-title">Do's & Don'ts</div>
+
+  <div class="dodont-grid">
+    <div class="do-card">
+      <div class="do-header">✓ DO</div>
+      <div class="do-body">
+        <div class="do-item">Use Leading when the icon is the primary action trigger.</div>
+        <div class="do-item">Use Trailing when the label content is more important visually.</div>
+        <div class="do-item">Always include Helper Text when the option might cause confusion.</div>
+        <div class="do-item">Keep the label on a single line whenever possible.</div>
+        <div class="do-item">Use Disabled state with a visible reason in the helper text.</div>
+      </div>
+    </div>
+    <div class="dont-card">
+      <div class="dont-header">✗ DON'T</div>
+      <div class="dont-body">
+        <div class="dont-item">Use this for exclusive selection — use Radio Button instead.</div>
+        <div class="dont-item">Truncate the label with ellipsis — reduce font size instead.</div>
+        <div class="dont-item">Change icon colors outside the system tokens.</div>
+        <div class="dont-item">Use Disabled without a clear reason for the user.</div>
+        <div class="dont-item">Mix Leading and Trailing in the same form group.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <span>PPP Design System · Checkbox Button · v1.0</span>
+  <span>12 variants · 3 states · 2 positions · Sofia Sans</span>
+</footer>
+
+
+<script>
+function copyCode(btn) {
+  const code = btn.getAttribute('data-code');
+  navigator.clipboard.writeText(code).then(() => {
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.textContent = 'Copy';
+      btn.classList.remove('copied');
+    }, 2000);
+  }).catch(() => {
+    // fallback
+    const ta = document.createElement('textarea');
+    ta.value = code;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.textContent = 'Copy';
+      btn.classList.remove('copied');
+    }, 2000);
+  });
+}
+</script>
+
+</body>
+</html>
